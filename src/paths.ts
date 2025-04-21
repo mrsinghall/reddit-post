@@ -1,14 +1,16 @@
-export const paths = {
+const paths = {
   home() {
-    return "/";
+    return '/';
   },
   topicShow(topicSlug: string) {
     return `/topics/${topicSlug}`;
   },
-  createPost(topicSlug: string) {
-    return `/topics/${topicSlug}/new`;
+  postCreate(topicSlug: string) {
+    return `/topics/${topicSlug}/posts/new`;
   },
-  getPost(topicSlug: string, postId: string) {
+  postShow(topicSlug: string, postId: string) {
     return `/topics/${topicSlug}/posts/${postId}`;
   },
 };
+
+export default paths;

@@ -5,8 +5,8 @@ import { z } from "zod";
 import type { Topic } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
+import paths from "@/paths";
 
 const createTopicSchema = z.object({
   name: z

@@ -1,7 +1,6 @@
 "use client";
 
-import { useActionState, startTransition } from "react";
-
+import React, { act, startTransition, useActionState } from "react";
 import {
   Input,
   Button,
@@ -11,13 +10,20 @@ import {
   PopoverContent,
   Form,
 } from "@nextui-org/react";
+import FormButton from "@/components/cmmon/form-button";
 import * as actions from "@/actions";
-import FormButton from "../cmmon/form-button";
 
-export default function TopicCreateForm() {
-  const [formState, action, isPending] = useActionState(actions.createTopic, {
-    errors: {},
-  });
+interface PostCreateFormPrps {
+  slug: string;
+}
+
+export default function PostCreateForm({ slug }: PostCreateFormPrps) {
+  const [formState, action, isPending] = useActionState(
+    actions.createPost.bind(null, slug),
+    {
+      errors: {},
+    }
+  );
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,39 +32,38 @@ export default function TopicCreateForm() {
       action(formData);
     });
   }
-
   return (
     <Popover placement="left">
       <PopoverTrigger>
-        <Button color="primary">Create a Topic</Button>
+        <Button color="primary">Create a Post</Button>
       </PopoverTrigger>
       <PopoverContent>
         <Form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4 p-4 w-80">
-            <h3 className="text-lg">Create a Topic</h3>
+            <h3 className="text-lg">Create a Post</h3>
             <Input
-              name="name"
-              label="Name"
+              name="title"
+              label="Title"
               labelPlacement="outside"
-              placeholder="Name"
-              isInvalid={!!formState.errors.name}
-              errorMessage={formState.errors.name?.join(", ")}
+              placeholder="Title"
+              isInvalid={!!formState.errors.title}
+              errorMessage={formState.errors.title?.join(", ")}
             />
 
             <Textarea
-              name="description"
-              label="Description"
+              name="content"
+              label="Content"
               labelPlacement="outside"
-              placeholder="Describe your topic"
-              isInvalid={!!formState.errors.description}
-              errorMessage={formState.errors.description?.join(", ")}
+              placeholder="Content"
+              isInvalid={!!formState.errors.content}
+              errorMessage={formState.errors.content?.join(", ")}
             />
             {formState.errors._form ? (
               <div className="rounded p-2 bg-red-200 border border-red-400">
                 {formState.errors._form?.join(", ")}
               </div>
             ) : null}
-            <FormButton isLoading={isPending}>Save</FormButton>
+            <FormButton isLoading={isPending}>Create Post</FormButton>
           </div>
         </Form>
       </PopoverContent>
